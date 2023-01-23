@@ -1,0 +1,36 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int len1 = s.length(),max = 0;
+        HashMap<String,Integer> map1 = new HashMap<>();
+        int st = 0 , ed = len1 , pnt = 0;
+        boolean bool1 = true ;
+        while(st<ed){
+            String str1 = s.substring(st,st+1);
+            int num1 = map1.getOrDefault(str1,0);
+            if( num1 == 0){
+                map1.put(str1,1);
+                if(max < map1.size()){
+                    max = map1.size();
+                }
+                 System.out.println(map1);
+            } else {
+                map1.put(str1,num1+1);
+                bool1 = true;
+                while(bool1==true){
+                    String str2 = s.substring(pnt,pnt+1);
+                    int num2 = map1.get(str2);
+                    if(str2.equals(str1)){
+                        map1.put(str2,num2-1);
+                        bool1 = false ;
+                    } else {
+                        map1.put(str2,num2-1);
+                        if(num2-1 == 0) map1.remove(str2);
+                    }
+                    pnt++;
+                }
+            }
+            st++;
+        }
+        return max ;
+    }
+}

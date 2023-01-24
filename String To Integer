@@ -1,0 +1,30 @@
+class Solution {
+    public int myAtoi(String s) {
+        int sign = 1;
+        long val=0;
+        boolean ty=false;
+        for(int i=0;i<s.length();i++){
+            char inp = s.charAt(i);
+            if(inp!=' '){
+                if(inp=='-' && ty==false && val==0){
+                    sign = -1;
+                    ty=true;
+                }
+                else if(inp=='+' && ty==false) ty=true;
+                else if(inp>='0' && inp<='9'){
+                    ty=true;
+                    val =val*10+Character.getNumericValue(inp);
+                    if(val>2147483647){
+                        if(sign==-1) return -2147483648;
+                        else return 2147483647;
+                    }
+                }
+                else break;
+            }
+            else if(ty==true){
+                return (int)(sign*val);
+            }
+        }
+        return (int)(sign*val);
+    }
+}

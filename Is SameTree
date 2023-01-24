@@ -1,0 +1,21 @@
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if( p == null && q == null ){
+            return true;
+        }
+        if( p == null || q == null ){
+            return false;
+        }
+        boolean bool1 = isSameTree(p.left,q.left); 
+        boolean bool2 = isSameTree(p.right,q.right);
+        boolean bool3 = false;
+        boolean bool4 = true;
+        if(p.val == q.val){
+            bool3 = true ;
+        }
+        if(bool1 == false || bool2 == false || bool3 == false){
+            bool4 = false ;
+        }
+        return bool4;
+        }
+}

@@ -1,0 +1,70 @@
+// without any duplicates
+class Solution {
+    public int pathsum(TreeNode node,int target){
+        if(node == null ){
+            return Integer.MAX_VALUE;
+        }
+        if(node.val == target){
+            return target;
+        }
+        int lt = pathsum(node.left,target);
+        int rt = pathsum(node.right,target);
+        if(lt == Integer.MAX_VALUE && rt == Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }
+        if(lt!=Integer.MAX_VALUE){
+            return lt+node.val;
+        }
+        if(rt!=Integer.MAX_VALUE){
+            return rt+node.val;
+        }
+        return Integer.MAX_VALUE;
+    }
+    public boolean checkleaf(TreeNode node, int targetSum){
+        if(node == null )  return false;
+        boolean bool1 = checkleaf(node.left,targetSum);
+        boolean bool2 = checkleaf(node.right,targetSum);
+        boolean bool3 = false;
+        if(node.left==null && node.right ==null){
+            int val1 = pathsum(root1,node.val);
+            if(val1==targetSum){
+                bool3 = true;
+            }
+
+        }
+        if(bool1==true|| bool2==true || bool3==true){
+             return true;
+        }
+        return false;
+    }
+    TreeNode root1 = null;
+    public boolean hasPathSum(TreeNode node, int targetSum) {
+        root1 = node ;
+       boolean bool1 = checkleaf(node,targetSum);
+        return bool1;
+    }
+}
+
+
+
+
+/// which can include duplicates 
+
+class Solution {
+    int sum = 0;
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null) return false;
+        if(root.left==null && root.right==null){
+              if(sum+root.val==targetSum) return true;
+              return false;
+        }
+        sum +=root.val;
+        boolean bool1 = hasPathSum(root.left,targetSum);
+        boolean bool2 = hasPathSum(root.right,targetSum);
+        if(bool1==false && bool2==false){
+            sum-=root.val;
+            return false;
+        }
+        return true;
+    }
+}

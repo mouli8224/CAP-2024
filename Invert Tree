@@ -1,0 +1,22 @@
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null) return null ;
+        TreeNode node1 = invertTree(root.left);
+        TreeNode node2 = invertTree(root.right);
+        if(node1!=null && node2!=null){
+            TreeNode temp = node1;
+            root.left = node2;
+            root.right = temp;
+            return root;
+        }
+        if(node1!=null){
+            root.left = null ;
+            root.right = node1 ;
+        }
+        if(node2!=null){
+            root.left = node2;
+            root.right= null;
+        }
+        return root;
+    }
+}

@@ -1,0 +1,23 @@
+class Solution {
+   public boolean symm(TreeNode node1 ,TreeNode node2){
+      if(node1==null && node2 == null){
+          return true;
+      }
+      if(node1==null) return false;
+      if(node2==null) return false;
+      boolean bool1 = symm(node1.left,node2.right);
+      boolean bool2 = symm(node1.right,node2.left);
+      boolean bool3 = false;
+      if(node1.val == node2.val) bool3 = true ;
+      if(bool1 == false || bool2 == false || bool3 == false) return false;
+      return true;
+    }
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null) return false;
+        if(root.left==null && root.right==null){
+            return true;
+        }
+        boolean bool1 = symm(root.left,root.right);
+        return bool1;
+    }
+}

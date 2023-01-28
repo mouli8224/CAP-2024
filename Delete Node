@@ -1,0 +1,60 @@
+class Solution {
+    public TreeNode deleteNode(TreeNode node, int key) {
+        TreeNode root = node ;
+        TreeNode prev = null ;
+        if(root==null) return null;
+        if(root.left==null && root.right==null){
+            if(node.val==key) return null;
+            return node;
+        }
+        boolean bool1 = true;
+        while(root!=null){
+            if(root.val==key){
+                bool1 = false;
+                break;
+            }
+            else if(root.val<key){
+                prev=root;
+                root = root.right;
+            }
+            else{
+                prev=root;
+                 root = root.left;
+            }
+        }
+        if(bool1==true) return node;
+        if(root.left!=null && root.right!=null){
+            TreeNode parent = root;
+            TreeNode temp = root.left;
+            while(temp.right!=null){
+                parent = temp;
+                temp = temp.right;
+            }
+            root.val = temp.val;
+            if(temp.val>parent.val){
+                if(temp.left==null) parent.right = temp.right;
+                else  parent.right = temp.left;
+            } else {
+                if(temp.left==null) parent.left = temp.right;
+                else  parent.left = temp.left;
+            }
+            return node;
+        }
+        if(node.val==key){
+            if(root.left==null){
+                root=root.right;
+                return root;
+            }
+            root=root.left;
+            return root;
+        }
+        if(root.val>prev.val){
+            if(root.left==null) prev.right = root.right;
+            else  prev.right = root.left;
+        } else {
+            if(root.left==null) prev.left = root.right;
+            else  prev.left = root.left;
+        }
+        return node;
+    }
+}

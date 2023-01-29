@@ -1,0 +1,19 @@
+class Solution {
+    int min = 100001;
+    int prev = -1;
+    public int minDistance(TreeNode root){
+        if(root==null) return 0;
+        minDistance(root.left);
+        if(prev!=-1){
+            int num = Math.abs(root.val-prev);
+            prev=root.val;
+            min = Math.min(min,num);
+        } else prev = root.val;
+        minDistance(root.right);
+        return root.val;
+    }
+    public int getMinimumDifference(TreeNode root) {
+        minDistance(root);
+        return min;
+    }
+}

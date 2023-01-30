@@ -1,0 +1,16 @@
+class Solution {
+    int i = 0 ;
+    public TreeNode BST(int[] preord,int upper){
+        if( i==preord.length || upper < preord[i] ) return null;
+        TreeNode node = new TreeNode(preord[i]);
+        i=i+1;
+        node.left=BST(preord,preord[i-1]);
+        node.right=BST(preord,upper);
+        return node;
+    }
+    public TreeNode bstFromPreorder(int[] preord) {
+        int upper = Integer.MAX_VALUE;
+        TreeNode node1 = BST(preord,upper);
+        return node1;
+    }
+}

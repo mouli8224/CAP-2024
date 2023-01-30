@@ -1,0 +1,19 @@
+class Solution {
+    public TreeNode buildTree(int[] po, int[] io) {
+        HashMap<Integer,Integer> map1 = new HashMap<>();
+        for(int i=0;i<io.length;i++) map1.put(io[i],i);
+        int[] curr ={0};
+        TreeNode node = BST(po,io,map1,0,po.length-1,0,io.length-1,curr);
+        return node;
+    }
+    public TreeNode BST(int[] po, int[] io,HashMap<Integer,Integer> map1,int ps,int pe,int is,int ie,int[] curr){
+        if( curr[0]==po.length || ps>pe || is>ie ) return null;
+        int val = po[curr[0]++];
+        TreeNode node = new TreeNode(val);
+        int lflen = map1.get(val);
+        node.left  = BST(po,io,map1,ps+1,ps+lflen-is,is,lflen-1,curr);
+        node.right = BST(po,io,map1,ps+lflen+1-is,pe,lflen+1,ie,curr);
+        return node;
+        
+    }
+}

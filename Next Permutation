@@ -1,0 +1,33 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int ind1 = -1 , ind2 =0;
+        for(int i = nums.length-2;i>=0;i--){
+            if(nums[i]<nums[i+1]){
+                ind1=i;
+                break;
+            }
+        }
+        if(ind1==-1) ind1=0;
+        else{
+            for(int i = nums.length-1;i>0;i--){
+                if(nums[ind1]<nums[i]){
+                    ind2=i;
+                    break;
+                }
+                if(i==ind1) break;
+            }
+            int temp = nums[ind2] ;
+            nums[ind2] = nums[ind1] ;
+            nums[ind1] = temp;
+            ind1++;
+        }
+       ind2=nums.length-1;
+       while(ind1<ind2){
+            int temp2 = nums[ind2] ;
+            nums[ind2] = nums[ind1] ;
+            nums[ind1] = temp2; 
+            ind1++;
+            ind2--;
+       }
+     }
+}

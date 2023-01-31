@@ -1,0 +1,24 @@
+class Solution {
+    public void merge(int[] nums,int lb1,int ub1,int lb2,int ub2){
+        int k =0,j=lb1;
+        int[] arr1 = new int[ub2+1-lb1];
+        while(lb1<=ub1 && lb2<=ub2){
+            if(nums[lb1]<nums[lb2]) arr1[k++] = nums[lb1++];
+            else arr1[k++] = nums[lb2++];
+        }
+        while(lb1<=ub1) arr1[k++] = nums[lb1++];
+        while(lb2<=ub2) arr1[k++] = nums[lb2++];
+        for(int i : arr1) nums[j++]=i;
+     }
+    public void mergesort(int[] nums ,int lb ,int ub){
+        if(lb<ub){
+            int mid = lb + ((ub-lb)/2);
+            mergesort(nums,lb,mid);
+            mergesort(nums,mid+1,ub);
+            merge(nums,lb,mid,mid+1,ub);
+        }
+    }
+    public void sortColors(int[] nums) {
+        mergesort(nums,0,nums.length-1);
+    }
+}

@@ -1,0 +1,49 @@
+class Bnode{
+    TreeNode root1;
+    int vo;
+    int lev;
+    public Bnode(TreeNode root1,int vo,int lev){
+        this.root1 = root1;
+        this.vo = vo;
+        this.lev = lev;
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        TreeMap<Integer,TreeMap<Integer,ArrayList<Integer>>> map1 = new TreeMap<>();
+        Queue<Bnode> queue = new LinkedList<>();
+        Bnode bnode = new Bnode(root,0,0);
+        queue.offer(bnode);
+        while(!queue.isEmpty()){
+            Bnode bnode1 = queue.poll();
+            TreeNode node = bnode1.root1;
+            int val1 = bnode1.vo;
+            int val2 = bnode1.lev;
+            TreeMap<Integer,ArrayList<Integer>> map2 = map1.getOrDefault(val1,new TreeMap<>());
+            ArrayList<Integer> list1 = map2.getOrDefault(val2,new ArrayList<>());
+            list1.add(node.val);
+            map2.put(val2,list1);
+            map1.put(val1,map2);
+            if(node.left!=null){
+                Bnode bnode2 = new Bnode(node.left,val1-1,val2+1);
+                queue.offer(bnode2);
+            }
+            if(node.right!=null){
+                Bnode bnode2 = new Bnode(node.right,val1+1,val2+1);
+                queue.offer(bnode2);
+            }
+        }
+        List<List<Integer>> list1 = new ArrayList<>();
+        for(Map.Entry<Integer,TreeMap<Integer,ArrayList<Integer>>> entry : map1.entrySet()){
+            List<Integer> list2 = new ArrayList<>();
+            TreeMap<Integer,ArrayList<Integer>> map2 = entry.getValue();
+            for(Map.Entry<Integer,ArrayList<Integer>> entry2 : map2.entrySet()){
+                ArrayList<Integer> list3 = entry2.getValue();
+                Collections.sort(list3);
+                for(int i: list3) list2.add(i);
+            }
+            list1.add(list2);
+        }
+        return list1;
+    }
+}

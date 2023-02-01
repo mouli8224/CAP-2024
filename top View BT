@@ -1,0 +1,53 @@
+class Bnode{
+    Node root1;
+    int vo;
+    int lev;
+    public Bnode(Node root1,int vo,int lev){
+        this.root1 = root1;
+        this.vo = vo;
+        this.lev = lev;
+    }
+}
+class Solution
+{
+    static ArrayList<Integer> topView(Node root){
+        TreeMap<Integer,TreeMap<Integer,ArrayList<Integer>>> map1 = new TreeMap<>();
+        Queue<Bnode> queue = new LinkedList<>();
+        Bnode node = new Bnode(root,0,0);
+        queue.offer(node);
+        while(!queue.isEmpty()){
+            Bnode bnode = queue.poll();
+            Node node1 = bnode.root1;
+            int num1 = bnode.vo;
+            int num2 = bnode.lev;
+            TreeMap<Integer,ArrayList<Integer>> map2 = map1.getOrDefault(num1,new TreeMap<>());
+            ArrayList<Integer> list1 = map2.getOrDefault(num2,new ArrayList<>());
+            list1.add(node1.data);
+            map2.put(num2,list1);
+            map1.put(num1,map2);
+            if(node1.left!=null){
+                Bnode bnode2 = new Bnode(node1.left,num1-1,num2+1);
+                queue.offer(bnode2);
+            }
+            if(node1.right!=null){
+                Bnode bnode2 = new Bnode(node1.right,num1+1,num2+1);
+                queue.offer(bnode2);
+            }
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for(Map.Entry<Integer,TreeMap<Integer,ArrayList<Integer>>> entry1 : map1.entrySet()){
+            TreeMap<Integer,ArrayList<Integer>> map2 = entry1.getValue();
+            int i =0;
+            for(Map.Entry<Integer,ArrayList<Integer>> entry2 : map2.entrySet()){
+                ArrayList<Integer> list1 = entry2.getValue();
+                if(i==0){
+                    Collections.sort(list1);
+                    int val3 = list1.get(0);
+                    list.add(val3);
+                }
+                i++;
+            }
+        } 
+        return list;
+    }
+}

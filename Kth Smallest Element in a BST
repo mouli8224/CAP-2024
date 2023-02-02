@@ -1,0 +1,16 @@
+class Solution {
+    int i = 1;
+    int min = -1;
+    public int kth(TreeNode root, int k) {
+        if(root==null) return 0;
+        int num2 = kth(root.left,k);
+        if(k==i) min = root.val;
+        i=i+1;
+        int num1 = kth(root.right,k);
+        return Math.max(num1,num2);
+    }
+    public int kthSmallest(TreeNode root, int k) {
+        kth(root,k);
+        return min;
+    }
+}

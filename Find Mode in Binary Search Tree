@@ -1,0 +1,27 @@
+class Solution {
+    HashMap<Integer,Integer> map1 = new HashMap<>();
+    int max1 = 0;
+    public void mode(TreeNode root) {
+        if(root==null) return;
+        mode(root.left);
+        int num1 = map1.getOrDefault(root.val,0)+1;
+        max1 = Math.max(max1,num1);
+        map1.put(root.val,num1);
+        mode(root.right);
+        return;
+    } 
+    public int[] findMode(TreeNode root) {
+        mode(root);
+        ArrayList<Integer> list1 = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map1.entrySet()){
+            int num1 = entry.getValue();
+            int num2 = entry.getKey();
+            if(num1==max1) list1.add(num2);
+        }
+        int[] arr1 = new int[list1.size()];
+        for(int i = 0;i<arr1.length;i++){
+            arr1[i] = list1.get(i);
+        }
+        return arr1;
+    }
+}

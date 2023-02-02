@@ -1,0 +1,13 @@
+class Solution {
+    TreeNode prev = null;
+    public boolean isValidBST(TreeNode root) {
+        if(root==null) return true;
+        boolean bool1 = isValidBST(root.left);
+        boolean bool2 = true;
+        if(prev!=null) if(prev.val>=root.val) bool2 = false;         
+        prev = root;
+        boolean bool3 = isValidBST(root.right);
+        if( bool1==false || bool2 == false || bool3 == false ) return false;
+        return true;
+    }
+}

@@ -1,0 +1,27 @@
+class Solution {
+    TreeNode prev = null;
+    TreeNode fst = null;
+    TreeNode lst = null;
+    public void IO(TreeNode root){
+        if(root==null) return;
+        IO(root.left);
+        if(prev!=null){
+            if(prev.val>root.val && fst==null){
+                fst = prev;
+                lst = root;
+            } 
+            else if(prev.val>root.val && fst!=null){
+                lst = root;
+            }
+        }
+        prev = root;
+        IO(root.right);
+        return;
+    }
+    public void recoverTree(TreeNode root) {
+        IO(root);
+        int val1 = fst.val;
+        fst.val = lst.val;
+        lst.val = val1;
+    }
+}

@@ -1,0 +1,23 @@
+class Solution {
+    int cnt = 0;
+    public void bfs(int[] nums,int[][] conn,int i){
+        nums[i]=1;
+        int[] arr1 = conn[i];
+        for(int j = 0;j<arr1.length;j++){
+            if(arr1[j]==1 && nums[j]!=1){
+                bfs(nums,conn,j);
+            }
+        }
+    }
+    public int findCircleNum(int[][] conn) {
+        int len = conn.length;
+        int[] nums = new int[len];
+        for(int i = 0;i<len;i++){
+            if(nums[i]!=1){
+                bfs(nums,conn,i);
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+}

@@ -1,0 +1,53 @@
+class pair{
+    int row;
+    int col;
+    public pair(int row,int col){
+        this.row=row;
+        this.col=col;
+    }
+}
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int[][] vis = new int[grid.length][grid[0].length];
+        Queue<pair> queue = new LinkedList<>();
+        int cnt2 = 0;
+        int[] delRow = {-1,1,0,0};
+        int[] delCol = {0,0,-1,1};
+        for(int i =0;i<grid.length;i++){
+            for(int j =0;j<grid[i].length;j++){
+                if(grid[i][j]==2 ){
+                    pair p = new pair(i,j);
+                    queue.offer(p);
+                }
+                else if(grid[i][j]==1) cnt2++;
+            }
+        }
+        if(cnt2==0) return 0;
+        int cnt = -1;
+        while(!queue.isEmpty()){
+            cnt+=1;
+            int len = queue.size();
+            for(int i =0;i<len;i++){
+                pair p = queue.poll();
+                int a = p.row;
+                int b = p.col;
+                for(int j=0;j<4;j++){
+                    int prerow = a+delRow[j];
+                    int precol = b+delCol[j];
+                    if( prerow>=0 && prerow<grid.length && precol>=0 && precol<grid[0].length && vis[prerow][precol]==0 && grid[prerow][precol]==1){
+                        vis[prerow][precol]=1;
+                        grid[prerow][precol]=2;
+                        pair p2 = new pair(prerow,precol);
+                        queue.offer(p2);
+                    }
+                }
+            }
+        }
+        for(int i =0;i<grid.length;i++){
+            for(int j =0;j<grid[0].length;j++){
+                if(grid[i][j]==1) return -1;
+            }
+        }
+        return cnt;
+     }
+}

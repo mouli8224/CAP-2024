@@ -1,0 +1,21 @@
+class Solution {
+    public int DFS(int hID, int[] inf,TreeMap<Integer,ArrayList<Integer>> map1 ){
+        int max = 0;
+        if(!map1.containsKey(hID)) return max;
+        ArrayList<Integer> list1 = map1.get(hID);
+        for(int i : list1){
+            max = Math.max(max,DFS(i,inf,map1));
+        }
+        return max+inf[hID];
+    }
+
+    public int numOfMinutes(int n, int hID, int[] man, int[] inf) {
+        TreeMap<Integer,ArrayList<Integer>> map1 = new TreeMap<>();
+        for(int i =0;i<man.length;i++){
+            ArrayList<Integer> list1 = map1.getOrDefault(man[i],new ArrayList<>());
+            list1.add(i);
+            map1.put(man[i],list1);
+        }
+        return DFS(hID,inf,map1);
+    }
+}

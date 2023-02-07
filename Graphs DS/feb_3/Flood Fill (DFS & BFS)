@@ -1,0 +1,76 @@
+// DFS code
+class Solution {
+    public void DFS(int[][] img, int sr, int sc, int color, int vis[][],int incolor,int delRow[],int delCol[]){
+        img[sr][sc]=color;
+        int a = img.length;
+        int b = img[0].length;
+        vis[sr][sc]=1;
+        for(int i =0 ; i< 4 ;i++){
+            int row=sr+delRow[i];
+            int col=sc+delCol[i];
+            if(row>=0 && col>=0 && row<a && col<b && vis[row][col]==0 && img[row][col]==incolor){
+                DFS(img,row,col,color,vis,incolor,delRow,delCol);
+            }
+        }
+    }
+    public int[][] floodFill(int[][] img, int sr, int sc, int color) {
+        int vis[][] = new int[img.length][img[0].length];
+        int delRow[]={0,0,-1,1};
+        int delCol[]={-1,1,0,0};
+        DFS(img,sr,sc,color,vis,img[sr][sc],delRow,delCol);
+        return img;
+    }
+}
+// BFS code
+class pair{
+    int row;
+    int col;
+    public pair(int row,int col){
+        this.row = row;
+        this.col = col;
+    }
+}
+class Solution {
+    public void bfs(int[][] img, int sr, int sc, int color, int vis[][],int num2){
+        Queue<pair> queue = new LinkedList<>();
+        pair n = new pair(sr,sc);
+        queue.offer(n);
+        vis[sr][sc] = 1;
+        img[sr][sc] = color;
+        while(!queue.isEmpty()){
+            pair n2 = queue.poll();
+            int a = n2.row;
+            int b = n2.col;
+            if(a-1>=0 && vis[a-1][b]==0 && img[a-1][b]==num2){
+                pair n3 =new pair(a-1,b);
+                queue.offer(n3);
+                vis[a-1][b]=1;
+                img[a-1][b]=color;
+            }
+            if(b-1>=0 && vis[a][b-1]==0 && img[a][b-1]==num2){
+                pair n3 = new pair(a,b-1);
+                queue.offer(n3);
+                vis[a][b-1]=1;
+                img[a][b-1]=color;
+            }
+            if(a+1<img.length && vis[a+1][b]==0 && img[a+1][b]==num2){
+                pair n3 = new pair(a+1,b);
+                queue.offer(n3);
+                vis[a+1][b]=1;
+                img[a+1][b]=color;
+            }
+            if(b+1<img[0].length && vis[a][b+1]==0 && img[a][b+1]==num2){
+                pair n3 = new pair(a,b+1);
+                queue.offer(n3);
+                vis[a][b+1]=1;
+                img[a][b+1]=color;
+            }
+        }
+    }
+    public int[][] floodFill(int[][] img, int sr, int sc, int color) {
+        int vis[][] = new int[img.length][img[0].length];
+        int num2 = img[sr][sc];
+        bfs(img,sr,sc,color,vis,num2);
+        return img;
+    }
+}

@@ -1,0 +1,32 @@
+class Solution {
+    public void bfs(int n ,List<List<Integer>> rooms,int[] arr1,int[] vis1){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(n);
+        while(!queue.isEmpty()){
+            int num1 = queue.poll();
+            List<Integer> list1 = rooms.get(num1);
+            for(int i : list1){
+                if(vis1[i]==0){
+                    arr1[i]=1;
+                    vis1[i]=1;
+                    queue.offer(i);
+                }
+            }
+        }
+    }
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int[] arr1 = new int[rooms.size()];
+        int[] vis1 = new int[rooms.size()];
+        arr1[0]=1;
+        for(int i =0;i<arr1.length;i++){
+            if(arr1[i]==1 && vis1[i]!=1){
+                vis1[i]=1;
+                bfs(i,rooms,arr1,vis1);
+            }
+        }
+        for(int i : arr1){
+            if(i==0) return false;
+        }
+        return true;
+    }
+}

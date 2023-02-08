@@ -1,0 +1,43 @@
+class pair implements Comparable<pair>{
+    int ele;
+    int row;
+    int col;
+    public pair(int ele,int row,int col){
+        this.ele = ele;
+        this.row = row;
+        this.col = col;
+    }
+    public int compareTo(pair a){
+        return ele-a.ele;
+    }
+}
+class Solution {
+    public int swimInWater(int[][] grid) {
+        int[][] vis = new int[grid.length][grid[0].length];
+        Queue<pair> queue = new PriorityQueue<>(); 
+        pair obj1 = new pair(grid[0][0],0,0);
+        queue.offer(obj1);
+        int[] delrow ={0,0,-1,1};
+        int[] delcol ={-1,1,0,0};
+        vis[0][0] = 1;
+        int valn = grid[0][0];
+        while(!queue.isEmpty()){
+            pair p = queue.poll();
+            int num1 = p.ele;
+            int row = p.row;
+            int col = p.col;
+            if(row==grid.length-1 && col == grid.length-1) valn = num1;
+            for(int i =0;i<4;i++){
+                int prow = row+delrow[i];
+                int pcol = col+delcol[i];
+                if(prow>=0 && pcol>=0 && prow<grid.length && pcol<grid[0].length && vis[prow][pcol]==0){
+                    vis[prow][pcol]=1;           
+                    int ele1 = Math.max(grid[prow][pcol],num1);
+                    pair p2 = new pair(ele1,prow,pcol);
+                    queue.offer(p2);
+                }
+            }
+         } 
+         return valn;
+    }
+}

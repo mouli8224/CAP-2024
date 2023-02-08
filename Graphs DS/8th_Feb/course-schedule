@@ -1,0 +1,43 @@
+class Solution {
+    public boolean dfs(ArrayList<ArrayList<Integer>> list1,int[] com,int[] vis,int i){
+        boolean bool1 = false;
+        vis[i]=1;
+        ArrayList<Integer> list2 = list1.get(i);
+        if(list2!=null){
+            for(int k : list2){
+                if(vis[k]==0){
+                    bool1 = bool1 || dfs(list1,com,vis,k);
+                }
+                else if(com[k]==0 && vis[k]==1){
+                    return true;
+                }
+            } 
+        }
+        com[i]=1;
+        return bool1;
+    }
+    public boolean canFinish(int n, int[][] p) {
+        ArrayList<ArrayList<Integer>> list1 = new ArrayList<>();
+        for(int i =0;i<n;i++){
+            ArrayList<Integer> list2 = new ArrayList<>();
+            list1.add(list2);
+        }
+        for(int i =0;i<p.length;i++){
+            int end = p[i][1];
+            int fst = p[i][0];
+            ArrayList<Integer> list2 = list1.get(fst);
+            list2.add(end);
+        }
+        int[] vis = new int[n];
+        int[] com = new int[n];
+        boolean bool1 = false;
+        for(int i =0;i<n;i++){
+            if(vis[i]==0){
+                bool1=bool1 || dfs(list1,com,vis,i);
+            }
+        }
+        System.out.println(list1);
+        if(bool1==true) return false;
+        return true;
+    }
+}

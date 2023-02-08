@@ -1,0 +1,44 @@
+class pair{
+    int len;
+    int row;
+    int col;
+    public pair(int len,int row,int col){
+        this.len = len;
+        this.row = row;
+        this.col = col;
+    }
+}
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        int[][] vis = new int[grid.length][grid[0].length];
+        Queue<pair> queue = new LinkedList<>();
+        if(grid[0][0]==1) return -1;
+        pair obj = new pair(1,0,0);
+        int[] delRow ={-1,1,0};
+        int[] delCol ={-1,1,0};
+        vis[0][0]=1;
+        int val1 = -1;
+        queue.offer(obj);
+        while(!queue.isEmpty()){
+            pair p = queue.poll();
+            int le = p.len;
+            int ro = p.row;
+            int co = p.col;
+            if(ro==grid.length-1 && co==grid.length-1) val1 = le;
+            for(int i =0;i<3;i++){
+                for(int j =0;j<3;j++){
+                    int pRow = ro+delRow[i];
+                    int pCol = co+delCol[j];
+                    if(pRow>=0 && pCol>=0 && pRow<grid.length && pCol<grid[0].length){
+                        if(vis[pRow][pCol]==0 && grid[pRow][pCol]==0){
+                            vis[pRow][pCol]=1;
+                            pair p2 = new pair(le+1,pRow,pCol);
+                            queue.offer(p2);
+                        }
+                    }
+                }
+            }
+        }
+        return val1;
+    }
+}

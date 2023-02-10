@@ -1,0 +1,48 @@
+class pair{
+    int row;
+    int col;
+    public pair(int row,int col){
+        this.row = row;
+        this.col = col;
+    }
+    public String toString(){
+        return row+" "+col;
+    }
+}
+class Solution {
+    int[] delRow ={-1,1,0,0};
+    int[] delcol ={0,0,1,-1};
+    public int[][] updateMatrix(int[][] mat) {
+        int[][] vis = new int[mat.length][mat[0].length];
+        Queue<pair> queue = new LinkedList<>();
+        for(int i =0;i<vis.length;i++){
+            for(int j = 0;j<vis[i].length;j++){
+                if(mat[i][j]==0){
+                    pair p = new pair(i,j);
+                    vis[i][j]=1;
+                    queue.offer(p);
+                }
+            }
+        }
+        int num1 = 0;
+        while(!queue.isEmpty()){
+            int len1 = queue.size();
+            num1++;
+            for(int x=0;x<len1;x++){
+                pair p = queue.poll();
+                int row = p.row;
+                int col = p.col;
+                for(int i =0;i<4;i++){
+                    int perw = row+delRow[i];
+                    int pecl = col+delcol[i];
+                    if(perw>=0 && perw<mat.length && pecl>=0 && pecl<mat[0].length && mat[perw][pecl]==1 && vis[perw][pecl]==0){
+                        mat[perw][pecl]=num1;
+                        vis[perw][pecl]=1;
+                        queue.offer(new pair(perw,pecl));
+                    }
+                }
+            }
+        }
+        return mat;
+    }
+}

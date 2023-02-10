@@ -1,0 +1,66 @@
+class pair{
+    int row;
+    int col;
+    int len;
+    public pair(int row,int col,int len){
+        this.row=row;
+        this.col=col;
+        this.len=len;
+    }
+}
+class Solution {
+    int[] delRow ={-1,1,0,0};
+    int[] delcol ={0,0,1,-1};
+    Queue<pair> queue = new LinkedList<>();
+    Queue<pair> queue2 = new LinkedList<>();
+    public void FirstIsland(int[][] vis,int[][] grid){
+        while(!queue.isEmpty()){
+            pair p = queue.poll();
+            for(int i =0;i<4;i++){
+                int perw = p.row+delRow[i];
+                int pecl = p.col+delcol[i];
+                if(perw>=0 && perw<grid.length && pecl>=0 && pecl<grid[0].length){
+                    if(grid[perw][pecl]==1 && vis[perw][pecl]==0){
+                        vis[perw][pecl]=1;
+                        queue.offer(new pair(perw,pecl,0));
+                    } 
+                    else if(grid[perw][pecl]==0 && vis[perw][pecl]==0){
+                        vis[perw][pecl]=1;
+                        queue2.offer(new pair(perw,pecl,1));
+                    }
+                }
+            }
+        }
+    }
+    public int shortestBridge(int[][] grid) {
+        int[][] vis = new int[grid.length][grid[0].length];
+        boolean bool1 = false;
+        for(int i =0;i<grid.length;i++){
+            if(bool1==true) break;
+            for(int j = 0;j<grid[i].length;j++){
+                if(grid[i][j]==1 && vis[i][j]==0 && bool1 == false){
+                    pair p = new pair(i,j,0);
+                    vis[i][j]=1;
+                    queue.offer(p);
+                    FirstIsland(vis,grid);
+                    bool1=true;
+                }
+            }
+        }
+        while(!queue2.isEmpty()){
+            pair p2 = queue2.poll();
+            for(int i =0;i<4;i++){
+                int perw = p2.row+delRow[i];
+                int pecl = p2.col+delcol[i];
+                if(perw>=0 && perw<grid.length && pecl>=0 && pecl<grid[0].length){
+                    if(grid[perw][pecl]==1 && vis[perw][pecl]==0) return p2.len;
+                    else if(grid[perw][pecl]==0 && vis[perw][pecl]==0){
+                        vis[perw][pecl]=1;
+                        queue2.offer(new pair(perw,pecl,p2.len+1));
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
